@@ -1,46 +1,19 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # Python virtual environments
 idol-env/
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Python compiled files
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
 *.pyc
-scripts_user/__pycache__/
-scripts/__pycache__/
 
-# Frontend (Next.js/Node.js) - all in subfolder
+# Frontend node_modules (in subdirectory)
 idol-singing-coach-frontend/node_modules/
 idol-singing-coach-frontend/.next/
 idol-singing-coach-frontend/out/
-idol-singing-coach-frontend/build/
-idol-singing-coach-frontend/.vercel/
-idol-singing-coach-frontend/*.tsbuildinfo
-idol-singing-coach-frontend/next-env.d.ts
 
-# Project-specific directories
+# Environment files
+.env*
+
+# Project directories
 songs/
 user_vocals/
 
-# Environment variables
-.env
-idol-singing-coach-frontend/.env.local
-
 # System files
 .DS_Store
-*.pem
-Thumbs.db
-
-# Debug logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
