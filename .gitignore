@@ -16,4 +16,5 @@ songs/
 user_vocals/
 
 # System files
-.DS_Store
+.DS_Store.env
+.env.*
