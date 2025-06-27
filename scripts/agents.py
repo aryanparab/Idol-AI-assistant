@@ -33,6 +33,7 @@ def extract_title_artist(youtube_title):
 
 
 def coach_agent(analysis):
+    
     # AI Singing Coach Prompt Template
     prompt = f"""
 You are a professional vocal coach giving constructive, friendly feedback to a student who just sang a snippet of a song.
@@ -68,7 +69,7 @@ Now, using the detailed **granular feedback** below, please give the student con
 Granular Feedback:
 {analysis['granular_feedback']}
 
-Please begin your response with an encouraging statement.
+Please begin your response with an encouraging statement and  matched_lyrics : {analysis['matched_lyrics']}
 Keep your reply under 150 words
 """
 
@@ -82,11 +83,14 @@ client = MongoClient(os.getenv('MONGODB_URI', 'mongodb://localhost:27017'))
 db = client[os.getenv("MONGODB_DB")]  # Replace with your database name
 chats_collection = db.chats
 
+
+    
 def get_chat_history_tool(chat_id:str,limit:int =10)->str:
     try:
+        
         if not chat_id:
             return "No chat ID Provided"
-        print(chat_id)
+       
         obj_id = ObjectId(chat_id)
         chat = chats_collection.find_one({"_id":obj_id})
         if not chat :
@@ -109,13 +113,16 @@ def get_chat_history_tool(chat_id:str,limit:int =10)->str:
 
 def get_user_singing_data_tool(chat_id:str)-> str:
     try:
+        
         if not chat_id:
             return "No chat ID provided"
         
-        chat = chats_collection.find_one({"_id": chat_id})
+        obj_id = ObjectId(chat_id)
+        chat = chats_collection.find_one({"_id": obj_id})
         if not chat:
+           
             return "No singing data found"
-        
+
         # Extract voice analysis data from messages
         voice_recordings = []
         messages = chat.get('messages', [])
@@ -177,10 +184,12 @@ AVAILABLE_TOOLS_chatbot_agent = [
 ]    
 
 def execute_tool(tool_name:str,chat_id:str,**kwargs)-> str:
+    
     if tool_name=="get_chat_history":
         limit=kwargs.get('limit',10)
         return get_chat_history_tool(chat_id,limit)
     elif tool_name=="get_user_singing_data":
+       
         return get_user_singing_data_tool(chat_id)
     else:
         return f"Unknown tool : {tool_name}"
@@ -206,6 +215,7 @@ User's message: {prompt}
             tool_call = tool_line.replace('TOOL_CALL','').strip()
             if "(" in tool_call:
                 tool_name = tool_call.split("(")[0].strip()
+                
                 tool_result = execute_tool(tool_name.split(":")[1].strip(),chat_id)
                 
                 enhanced_prompt = f"""Based on the following information, please provide a helpful response:
