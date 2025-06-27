@@ -31,7 +31,8 @@ songs/
 user_vocals/
 
 # Environment variables
-.env*
+.env
+idol-singing-coach-frontend/.env.local
 
 # System files
 .DS_Store
